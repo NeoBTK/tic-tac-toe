@@ -12,7 +12,7 @@ public class HumanPlayer implements Player {
 
     @Override
     public int[] getMove(String[][] board) {
-        System.out.println("Player " + symbol + " enter your move (row 1-3, column 1-3): ");
+        System.out.println("Player \"" + symbol + "\" enter your move (row 1-3, column 1-3): ");
         int row = scanner.nextInt();
         int column = scanner.nextInt();
         return new int[]{row, column};

@@ -18,8 +18,9 @@ public class Game {
 
     public void run() {
         boolean endOfGame = false;
+        initiateBoard(board);
 
-        while (!endOfGame) {
+        while (!endOfGame && !isBoardFull(board)) {
             ui.showBoard(board);
             Player current = currentPlayer.equals("X") ? playerX : playerO;
             int[] move = current.getMove(board);
@@ -47,19 +48,27 @@ public class Game {
 
     }
 
-    private boolean isValidMove(String[][] board, int row, int column) {
-        return row >= 1 && row <= 3 && column >= 1 && column <= 3 && " ".equals(board[row - 1][column - 1]);
+    private void setupPlayers() {
+        int mode = ui.getGameMode();
+        if (mode == 1) {
+            playerX = new HumanPlayer("X");
+            playerO = new HumanPlayer("O");
+        } else {
+            playerX = new HumanPlayer("X");
+            playerO = new CpuPlayer("O");
+        }
     }
 
-    private boolean isBoardFull(String[][] board) {
+    private void initiateBoard(String[][] board) {
         for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board.length; col++) {
-                if (" ".equals(board[row][col])) {
-                    return false;
-                }
+            for (int col = 0; col < board[row].length; col++) {
+                board[row][col] = " ";
             }
         }
-        return true;
+    }
+
+    private boolean isValidMove(String[][] board, int row, int column) {
+        return row >= 1 && row <= 3 && column >= 1 && column <= 3 && " ".equals(board[row - 1][column - 1]);
     }
 
     private boolean isWon(String[][] board, String currentPlayer) {
@@ -75,14 +84,14 @@ public class Game {
                 (board[0][2].equals(currentPlayer) && board[1][1].equals(currentPlayer) && board[2][0].equals(currentPlayer));
     }
 
-    private void setupPlayers() {
-        int mode = ui.getGameMode();
-        if (mode == 1) {
-            playerX = new HumanPlayer("X");
-            playerO = new HumanPlayer("O");
-        } else {
-            playerX = new HumanPlayer("X");
-            playerO = new CpuPlayer("O");
+    private boolean isBoardFull(String[][] board) {
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                if (" ".equals(board[row][col])) {
+                    return false;
+                }
+            }
         }
+        return true;
     }
 }
