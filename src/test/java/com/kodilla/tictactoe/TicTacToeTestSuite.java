@@ -1,51 +1,33 @@
 package com.kodilla.tictactoe;
 
-import com.kodilla.tictactoe.controller.ConsoleUi;
-import com.kodilla.tictactoe.service.Game;
-import org.junit.jupiter.api.AfterEach;
+import com.kodilla.tictactoe.service.Board;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.lang.reflect.Method;
-
 public class TicTacToeTestSuite {
-    private Game game;
-    private ConsoleUi ui;
-    private Method methodIsWon;
-    private Method methodIsBoardFull;
-
-    void provideInput(String data) {
-        ByteArrayInputStream testInput = new ByteArrayInputStream(data.getBytes());
-        System.setIn(testInput);
-    }
-
-    @BeforeEach
-    void setUp() throws NoSuchMethodException {
-        provideInput("1");
-        ui = new ConsoleUi();
-        game = new Game(ui);
-        methodIsWon = Game.class.getDeclaredMethod("isWon", String[][].class, String.class);
-        methodIsWon.setAccessible(true);
-    }
-
-    @AfterEach
-    void tearDown() {
-        System.setIn(System.in);
-    }
 
     @Test
-    void testOwinsInRows() throws Exception {
+    void testOwinsInRows() {
         //Given
-        String[][] board1 = { { "O", "O", "O" }, { " ", " ", " " }, { " ", " ", " " } };
-        String[][] board2 = { { " ", " ", " " }, { "O", "O", "O" }, { " ", " ", " " } };
-        String[][] board3 = { { " ", " ", " " }, { " ", " ", " " }, { "O", "O", "O" } };
+        Board board1 = new Board();
+        board1.setMove(1, 1, "O");
+        board1.setMove(1, 2, "O");
+        board1.setMove(1, 3, "O");
+
+        Board board2 = new Board();
+        board2.setMove(2, 1, "O");
+        board2.setMove(2, 2, "O");
+        board2.setMove(2, 3, "O");
+
+        Board board3 = new Board();
+        board3.setMove(3, 1, "O");
+        board3.setMove(3, 2, "O");
+        board3.setMove(3, 3, "O");
 
         //When
-        boolean result1 = (boolean) methodIsWon.invoke(game,  board1, "O");
-        boolean result2 = (boolean) methodIsWon.invoke(game,  board2, "O");
-        boolean result3 = (boolean) methodIsWon.invoke(game,  board3, "O");
+        boolean result1 = board1.isWon("O");
+        boolean result2 = board2.isWon("O");
+        boolean result3 = board3.isWon("O");
 
         //Then
         Assertions.assertTrue(result1);
@@ -54,16 +36,27 @@ public class TicTacToeTestSuite {
     }
 
     @Test
-    void testOwinsInColumns() throws Exception {
+    void testOwinsInColumns() {
         //Given
-        String[][] board1 = { { "O", " ", " " }, { "O", " ", " " }, { "O", " ", " " } };
-        String[][] board2 = { { " ", "O", " " }, { " ", "O", " " }, { " ", "O", " " } };
-        String[][] board3 = { { " ", " ", "O" }, { " ", " ", "O" }, { " ", " ", "O" } };
+        Board board1 = new Board();
+        board1.setMove(1, 1, "O");
+        board1.setMove(2, 1, "O");
+        board1.setMove(3, 1, "O");
+
+        Board board2 = new Board();
+        board2.setMove(1, 2, "O");
+        board2.setMove(2, 2, "O");
+        board2.setMove(3, 2, "O");
+
+        Board board3 = new Board();
+        board3.setMove(1, 3, "O");
+        board3.setMove(2, 3, "O");
+        board3.setMove(3, 3, "O");
 
         //When
-        boolean result1 = (boolean) methodIsWon.invoke(game,  board1, "O");
-        boolean result2 = (boolean) methodIsWon.invoke(game,  board2, "O");
-        boolean result3 = (boolean) methodIsWon.invoke(game,  board3, "O");
+        boolean result1 = board1.isWon("O");
+        boolean result2 = board2.isWon("O");
+        boolean result3 = board3.isWon("O");
 
         //Then
         Assertions.assertTrue(result1);
@@ -72,14 +65,21 @@ public class TicTacToeTestSuite {
     }
 
     @Test
-    void testOwinsDiagonal() throws Exception {
+    void testOwinsDiagonal() {
         //Given
-        String[][] board1 = { { "O", " ", " " }, { " ", "O", " " }, { " ", " ", "O" } };
-        String[][] board2 = { { " ", " ", "O" }, { " ", "O", " " }, { "O", " ", " " } };
+        Board board1 = new Board();
+        board1.setMove(1, 1, "O");
+        board1.setMove(2, 2, "O");
+        board1.setMove(3, 3, "O");
+
+        Board board2 = new Board();
+        board2.setMove(1, 3, "O");
+        board2.setMove(2, 2, "O");
+        board2.setMove(3, 1, "O");
 
         //When
-        boolean result1 = (boolean) methodIsWon.invoke(game,  board1, "O");
-        boolean result2 = (boolean) methodIsWon.invoke(game,  board2, "O");
+        boolean result1 = board1.isWon("O");
+        boolean result2 = board2.isWon("O");
 
         //Then
         Assertions.assertTrue(result1);
@@ -87,16 +87,27 @@ public class TicTacToeTestSuite {
     }
 
     @Test
-    void testXwinsInRows() throws Exception {
+    void testXwinsInRows() {
         //Given
-        String[][] board1 = { { "X", "X", "X" }, { " ", " ", " " }, { " ", " ", " " } };
-        String[][] board2 = { { " ", " ", " " }, { "X", "X", "X" }, { " ", " ", " " } };
-        String[][] board3 = { { " ", " ", " " }, { " ", " ", " " }, { "X", "X", "X" } };
+        Board board1 = new Board();
+        board1.setMove(1, 1, "X");
+        board1.setMove(1, 2, "X");
+        board1.setMove(1, 3, "X");
+
+        Board board2 = new Board();
+        board2.setMove(2, 1, "X");
+        board2.setMove(2, 2, "X");
+        board2.setMove(2, 3, "X");
+
+        Board board3 = new Board();
+        board3.setMove(3, 1, "X");
+        board3.setMove(3, 2, "X");
+        board3.setMove(3, 3, "X");
 
         //When
-        boolean result1 = (boolean) methodIsWon.invoke(game,  board1, "X");
-        boolean result2 = (boolean) methodIsWon.invoke(game,  board2, "X");
-        boolean result3 = (boolean) methodIsWon.invoke(game,  board3, "X");
+        boolean result1 = board1.isWon("X");
+        boolean result2 = board2.isWon("X");
+        boolean result3 = board3.isWon("X");
 
         //Then
         Assertions.assertTrue(result1);
@@ -105,16 +116,27 @@ public class TicTacToeTestSuite {
     }
 
     @Test
-    void testXwinsInColumns() throws Exception {
+    void testXwinsInColumns() {
         //Given
-        String[][] board1 = { { "X", " ", " " }, { "X", " ", " " }, { "X", " ", " " } };
-        String[][] board2 = { { " ", "X", " " }, { " ", "X", " " }, { " ", "X", " " } };
-        String[][] board3 = { { " ", " ", "X" }, { " ", " ", "X" }, { " ", " ", "X" } };
+        Board board1 = new Board();
+        board1.setMove(1, 1, "X");
+        board1.setMove(2, 1, "X");
+        board1.setMove(3, 1, "X");
+
+        Board board2 = new Board();
+        board2.setMove(1, 2, "X");
+        board2.setMove(2, 2, "X");
+        board2.setMove(3, 2, "X");
+
+        Board board3 = new Board();
+        board3.setMove(1, 3, "X");
+        board3.setMove(2, 3, "X");
+        board3.setMove(3, 3, "X");
 
         //When
-        boolean result1 = (boolean) methodIsWon.invoke(game,  board1, "X");
-        boolean result2 = (boolean) methodIsWon.invoke(game,  board2, "X");
-        boolean result3 = (boolean) methodIsWon.invoke(game,  board3, "X");
+        boolean result1 = board1.isWon("X");
+        boolean result2 = board2.isWon("X");
+        boolean result3 = board3.isWon("X");
 
         //Then
         Assertions.assertTrue(result1);
@@ -123,14 +145,21 @@ public class TicTacToeTestSuite {
     }
 
     @Test
-    void testXwinsDiagonal() throws Exception {
+    void testXwinsDiagonal() {
         //Given
-        String[][] board1 = { { "X", " ", " " }, { " ", "X", " " }, { " ", " ", "X" } };
-        String[][] board2 = { { " ", " ", "X" }, { " ", "X", " " }, { "X", " ", " " } };
+        Board board1 = new Board();
+        board1.setMove(1, 1, "X");
+        board1.setMove(2, 2, "X");
+        board1.setMove(3, 3, "X");
+
+        Board board2 = new Board();
+        board2.setMove(1, 3, "X");
+        board2.setMove(2, 2, "X");
+        board2.setMove(3, 1, "X");
 
         //When
-        boolean result1 = (boolean) methodIsWon.invoke(game,  board1, "X");
-        boolean result2 = (boolean) methodIsWon.invoke(game,  board2, "X");
+        boolean result1 = board1.isWon("X");
+        boolean result2 = board2.isWon("X");
 
         //Then
         Assertions.assertTrue(result1);
@@ -138,22 +167,27 @@ public class TicTacToeTestSuite {
     }
 
     @Test
-    void testIsGameDraw() throws Exception {
+    void testIsGameDraw() {
         //Given
-        String[][] board1 = { { "O", "X", "O" }, { "X", "O", "X" }, { "O", "X", "X" } };
-        String[][] board2 = { { "X", "O", "X" }, { "O", "X", "O" }, { "X", "X", "O" } };
-        String[][] board3 = { { "X", "X", "O" }, { "O", "O", "X" }, { "X", "O", "X" } };
+        Board board = new Board();
+        board.setMove(1, 1, "X");
+        board.setMove(1, 2, "O");
+        board.setMove(1, 3, "X");
+        board.setMove(2, 1, "X");
+        board.setMove(2, 2, "O");
+        board.setMove(2, 3, "X");
+        board.setMove(3, 1, "O");
+        board.setMove(3, 2, "X");
+        board.setMove(3, 3, "O");
 
         //When
-        methodIsBoardFull = Game.class.getDeclaredMethod("isBoardFull", String[][].class);
-        methodIsBoardFull.setAccessible(true);
-        boolean result1 = (boolean) methodIsBoardFull.invoke(game, (Object) board1);
-        boolean result2 = (boolean) methodIsBoardFull.invoke(game, (Object) board2);
-        boolean result3 = (boolean) methodIsBoardFull.invoke(game, (Object) board3);
+        boolean result1 = board.isWon("X");
+        boolean result2 = board.isWon("O");
+        boolean result3 = board.isBoardFull();
 
         //Then
-        Assertions.assertTrue(result1);
-        Assertions.assertTrue(result2);
+        Assertions.assertFalse(result1);
+        Assertions.assertFalse(result2);
         Assertions.assertTrue(result3);
     }
 }

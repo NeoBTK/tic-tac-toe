@@ -2,13 +2,15 @@ package com.kodilla.tictactoe.controller;
 
 import java.util.Scanner;
 
-public class ConsoleUi {
+public class ConsoleUi implements GameUi {
     private final Scanner scanner = new Scanner(System.in);
 
+    @Override
     public void showMessage(String message) {
         System.out.println(message);
     }
 
+    @Override
     public int getGameMode() {
         int gameMode = 0;
         while (gameMode != 1 && gameMode != 2) {
@@ -18,6 +20,7 @@ public class ConsoleUi {
         return gameMode;
     }
 
+    @Override
     public void showBoard(String[][] board) {
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
